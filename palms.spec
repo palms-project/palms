@@ -8,7 +8,7 @@ a = Analysis(
     ["src/client/gui.py"],
     pathex=["/home/gideon/git/palms"],
     binaries=[],
-    datas=[("src/client/ttk-Breeze/", ".")],
+    datas=None,
     hiddenimports=[],
     hookspath=[],
     runtime_hooks=[],
