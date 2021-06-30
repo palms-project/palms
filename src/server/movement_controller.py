@@ -6,9 +6,8 @@ import logging
 import time
 from functools import total_ordering
 
+import data
 import RPi.GPIO as GPIO
-
-from . import data
 
 STEP_INCREMENT = 5.08 / 400  # Lead screw pitch / steps per rev
 

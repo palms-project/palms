@@ -1,6 +1,6 @@
 import tkinter as tk
 
-from . import send_data
+import send_data
 
 root = tk.Tk()
 root.title("PALMS")
