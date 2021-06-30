@@ -1,0 +1,3 @@
+[submodule "src/client/ttk-Breeze"]
+	path = src/client/ttk-Breeze
+	url = https://github.com/MaxPerl/ttk-Breeze
