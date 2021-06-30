@@ -1,14 +1,13 @@
 """Movement controller"""
 
-__all__ = ["run", "cleanup"]
+__all__ = ["run", "clean_up"]
 
 import logging
 import time
 from functools import total_ordering
 
-import RPi.GPIO as GPIO
-
 import data
+import RPi.GPIO as GPIO
 
 STEP_INCREMENT = 5.08 / 400  # Lead screw pitch / steps per rev
 

@@ -9,7 +9,7 @@ logging.basicConfig(
     format="{asctime} {levelname}: {message}", style="{", level=logging.INFO, datefmt="%m/%d/%Y %I:%M:%S %p"
 )
 
-atexit.register(movement_controller.cleanup)
+atexit.register(movement_controller.clean_up)
 
 movement_system_thread = Thread(target=movement_controller.run, daemon=True)
 movement_system_thread.start()

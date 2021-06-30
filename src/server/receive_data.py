@@ -20,7 +20,7 @@ def serve() -> None:
 
 class RequestHandler(socketserver.BaseRequestHandler):
     def setup(self) -> None:
-        logging.debug(f"Received new request")
+        logging.debug("Received new request")
 
     def handle(self) -> None:
         """
@@ -39,7 +39,7 @@ class RequestHandler(socketserver.BaseRequestHandler):
             logging.debug("Targets dict set to zero")
 
     def finish(self) -> None:
-        logging.debug(f"Handled new request")
+        logging.debug("Handled new request")
 
 
 class LoggingTCPServer(socketserver.TCPServer):
