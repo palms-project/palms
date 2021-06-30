@@ -1,22 +1,10 @@
 import tkinter as tk
-from pathlib import Path
-from tkinter import ttk
 
-import send_data
+from . import send_data
 
 root = tk.Tk()
 root.title("PALMS")
 root.geometry("600x400")
-
-# Styling
-# Create a style
-style = ttk.Style(root)
-
-# Import the tcl file
-root.tk.call("source", Path(__file__).resolve().parents[0].joinpath("ttk-Breeze/breeze.tcl"))
-
-# Set the theme with the theme_use method
-style.theme_use("Breeze")
 
 
 def update():
