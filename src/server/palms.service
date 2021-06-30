@@ -1,0 +1,11 @@
+[Unit]
+Description=PALMS
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=python3 -u -m client
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
