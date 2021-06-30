@@ -2,8 +2,7 @@ import atexit
 import logging
 from threading import Thread
 
-import movement_controller
-import receive_data
+from . import movement_controller, receive_data
 
 logging.basicConfig(
     format="{asctime} {levelname}: {message}", style="{", level=logging.INFO, datefmt="%m/%d/%Y %I:%M:%S %p"
