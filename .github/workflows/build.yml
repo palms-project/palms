@@ -24,3 +24,11 @@ jobs:
 
       - name: Build
         run: make pyinstaller
+
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: false
+          title: $(git rev-parse HEAD | cut -c 1-8)
+          files: dist/*
