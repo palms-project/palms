@@ -17,8 +17,6 @@ repos:
     hooks:
       - id: check-toml
       - id: end-of-file-fixer
-      - id: requirements-txt-fixer
-      - id: requirements-txt-fixer
   - repo: https://github.com/codespell-project/codespell
     rev: v2.1.0
     hooks:
