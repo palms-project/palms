@@ -21,7 +21,7 @@ lint:
 
 ## Make pyinstaller spec file
 pyspec:
-	pyi-makespec --add-data src/client/ttk-Breeze/:. --windowed --onefile --name palms src/client/gui.py
+	pyi-makespec --paths=src/client/ --windowed --onefile --name palms src/client/gui.py
 
 ## Build executable with pyinstaller
 pyinstaller:
