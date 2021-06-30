@@ -21,6 +21,7 @@ repos:
     rev: v2.1.0
     hooks:
       - id: codespell
+        args: ["--skip=palms.spec"]
   - repo: https://github.com/nbQA-dev/nbQA
     rev: 0.13.0
     hooks:
