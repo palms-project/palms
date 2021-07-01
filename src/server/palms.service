@@ -1,10 +1,10 @@
 [Unit]
-Description=PALMS
+Description=PALMS (Precision Accurate LIBS Movement System)
 After=multi-user.target
 
 [Service]
 Type=simple
-ExecStart=python3 -u -m client
+ExecStart=python3 -u -m server
 Restart=always
 
 [Install]
