@@ -15,17 +15,16 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.0.1
     hooks:
+      - id: check-executables-have-shebangs
       - id: check-toml
-      - id: end-of-file-fixer
+      - id: check-yaml
   - repo: https://github.com/codespell-project/codespell
     rev: v2.1.0
     hooks:
       - id: codespell
         args: ["--skip=palms.spec"]
-  - repo: https://github.com/nbQA-dev/nbQA
-    rev: 0.13.0
+  - repo: https://github.com/lovesegfault/beautysh
+    rev: v6.1.0
     hooks:
-      - id: nbqa-black
-        args: [--nbqa-mutate]
-      - id: nbqa-isort
-        args: [--nbqa-mutate]
+      - id: beautysh
+        args: [--force-function-style, paronly]
