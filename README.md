@@ -2,7 +2,7 @@
 
 # PALMS
 
-<img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/RE-PALMS/PALMS?label=Github Release&logo=Github">
+<img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/RE-PALMS/PALMS?label=Github%20Release&logo=Github">
 <img alt="GitHub Workflow Status (branch)" src="https://img.shields.io/github/workflow/status/RE-PALMS/PALMS/Development%20Release/master?label=Build&logo=Github">
 <img alt="GitHub" src="https://img.shields.io/github/license/RE-PALMS/PALMS?label=License">
 <a href="https://results.pre-commit.ci/latest/github/RE-PALMS/PALMS/master"><img alt="pre-commit.ci status" src="https://results.pre-commit.ci/badge/github/RE-PALMS/PALMS/master.svg"></a>
@@ -18,25 +18,29 @@ PALMS is 5-axis positioning system that optimizes LIBS by replacing human hands 
 
 The PALMS system is split into two parts: the client and the server. The client runs on the user's Windows PC and the server runs on the Raspberry Pi integrated into the robotic system.
 
-# Installation
+## Installation
 
-## Client
+### Client
 
 The client is available as a Windows executable. You can retrieve the latest stable version [here](https://github.com/RE-PALMS/PALMS/releases/latest), and you can find the latest pre-release [here](https://github.com/RE-PALMS/PALMS/releases/tag/latest).
 
 On each release, the Windows executable is available as `palms.exe`. Download it and run it directly. Windows SmartScreen may throw up a warning; if it does click `More info` and then `Run anyway`.
 
-## Server
+### Server
 
 The PALMS server can be installed with the provided install script.
 
-To use it, you must edit the remote (Raspberry Pi) user and hostname as shown below.
+To use it, you must configure it as shown below.
 
 ```diff
+#### CONFIGURATION ####
+
 - REMOTE_USER="pi"
-+ REMOTE_USER="your user"
 - REMOTE_HOST="raspi"
++ REMOTE_USER="your user"
 + REMOTE_HOST="your host"
+
+#### END CONFIGURATION ####
 ```
 
 To run the script:
@@ -47,15 +51,15 @@ cd PALMS
 ./src/server/install.sh
 ```
 
-# Usage
+## Usage
 
 For the client to communicate with the server, it must have some kind of network connection where it can access the server by the hostname `raspberrypi.local`. Additionally, port 35007 must be open on both the client and the server.
 
-## Client
+### Client
 
 Double click the `palms.exe` file and the application should open.
 
-## Server
+### Server
 
 The server runs as a daemon (it automatically starts on boot and runs continuously), so no action should be necessary after it is installed. If it acts strangely, try viewing the logs:
 
