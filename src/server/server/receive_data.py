@@ -6,7 +6,7 @@ import json
 import logging
 import socketserver
 
-import data
+from . import data
 
 SERVER_ADDRESS = ("raspberrypi.local", 35007)
 
