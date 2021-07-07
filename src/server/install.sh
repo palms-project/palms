@@ -6,8 +6,6 @@
 #   The user on the remote host must have superuser privileges (to install the systemd service)
 #   The remote host must already have RPi.GPIO installed (it can't be built cross-platform)
 #
-# To verify the status of the service, run "sudo systemctl status palms.service"
-#
 
 #### CONFIGURATION ####
 
@@ -37,7 +35,7 @@ install_server_pkg() {
     my_echo "Installing PALMS on remote host"
     ssh "$REMOTE" "
         cd ~/server/
-        python3 -m pip install .
+        sudo python3 -m pip install .
     "
 }
 
@@ -47,7 +45,16 @@ install_systemd_service() {
         cd ~/server/
         sudo mv ./palms.service /etc/systemd/system/palms.service
         sudo systemctl daemon-reload
+        sudo systemctl enable palms.service
         sudo systemctl start palms.service
+        sudo systemctl status palms.service
+    "
+}
+
+rm_server_dir() {
+    my_echo "Deleting copied source files"
+    ssh "$REMOTE" "
+        rm -rf ~/server/
     "
 }
 
@@ -56,6 +63,7 @@ main() {
     copy_source
     install_server_pkg
     install_systemd_service
+    rm_server_dir
 }
 
 main
