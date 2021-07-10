@@ -12,8 +12,14 @@ from . import data
 
 STEP_INCREMENT = 5.08 / 400  # Lead screw pitch / steps per rev
 
+A_AXIS_STEP_INCREMENT = 4 / 170
+
 CW = 1  # clockwise rotation
 CCW = 0  # counterclockwise rotation
+
+# b-axis is flipped
+B_AXIS_CW = 0
+B_AXIS_CCW = 1
 
 STEP_X = 11  # x-axis step GPIO pin
 DIR_X = 13  # x-axis direction GPIO pin
@@ -37,16 +43,14 @@ def run() -> None:
     """Receive movement instructions and execute until stopped."""
     set_up_gpio()
 
-    x_axis = Axis(STEP_X, DIR_X, "x")
-    y_axis = Axis(STEP_Y, DIR_Y, "y")
-    z_axis = Axis(STEP_Z, DIR_Z, "z")
-    a_axis = Axis(STEP_A, DIR_A, "a")
-    b_axis = Axis(STEP_B, DIR_B, "b")
+    x_axis = Axis(STEP_X, DIR_X, STEP_INCREMENT, CW, CCW, "x")
+    y_axis = Axis(STEP_Y, DIR_Y, STEP_INCREMENT, CW, CCW, "y")
+    z_axis = Axis(STEP_Z, DIR_Z, STEP_INCREMENT, CW, CCW, "z")
+    a_axis = Axis(STEP_A, DIR_A, A_AXIS_STEP_INCREMENT, CW, CCW, "a")
+    b_axis = Axis(STEP_B, DIR_B, STEP_INCREMENT, B_AXIS_CW, B_AXIS_CCW, "b")
 
     logging.info("Controller loop starting")
     while True:
-        zero_if_cmd(x_axis, y_axis, z_axis, a_axis, b_axis)
-
         x_axis.target_position = data.targets["x"]
         y_axis.target_position = data.targets["y"]
         z_axis.target_position = data.targets["z"]
@@ -95,26 +99,17 @@ def is_in_position(*axes) -> bool:
     return all(axis.is_in_position() for axis in axes)
 
 
-def zero_if_cmd(*axes) -> None:
-    """If zero command is sent from user, set all axes' current and target position to zero"""
-    if data.zero_cmd:
-        for axis in axes:
-            axis.current_position = 0.0
-            axis.target_position = 0.0
-        data.zero_cmd = False
-        logging.info("Positions zeroed successfully")
-    else:
-        logging.debug("Positions not zeroed")
-
-
 class Axis:
-    def __init__(self, step_pin: int, dir_pin: int, name: str = "unnamed"):
+    def __init__(self, step_pin: int, dir_pin: int, step_increment: float, cw: int, ccw: int, name: str = "unnamed"):
         self._step_pin = step_pin
         self._dir_pin = dir_pin
 
-        self._current_position = Position()
+        self._current_position = Position(step_increment)
 
-        self._target_position = Position()
+        self._target_position = Position(step_increment)
+
+        self._cw = cw
+        self._ccw = ccw
 
         self.name = name
 
@@ -132,17 +127,17 @@ class Axis:
             self._current_position.decrement()
             logging.debug(f"Decremented {self.name}. Now {self._current_position.pos}.")
         else:
-            logging.debug("No movement made")
+            logging.debug(f"{self.name}: No movement made")
 
     def _step_decrease(self) -> None:
         """Decreases axis position by stepping motor CLOCKWISE (CW)"""
-        GPIO.output(self._dir_pin, CW)
+        GPIO.output(self._dir_pin, self._cw)
         GPIO.output(self._step_pin, GPIO.HIGH)
         logging.debug(f"{self.name} moving to HIGH, CW (step decrease)")
 
     def _step_increase(self) -> None:
         """Increases axis position by stepping motor COUNTERCLOCKWISE (CCW)"""
-        GPIO.output(self._dir_pin, CCW)
+        GPIO.output(self._dir_pin, self._ccw)
         GPIO.output(self._step_pin, GPIO.HIGH)
         logging.debug(f"{self.name}: moving to HIGH, CCW (step increase)")
 
@@ -175,19 +170,20 @@ class Axis:
 
 @total_ordering
 class Position:
-    def __init__(self):
+    def __init__(self, step_increment):
         self.pos = 0.0
+        self._step_increment = step_increment
 
     def increment(self) -> None:
-        self.pos += STEP_INCREMENT
+        self.pos += self._step_increment
 
     def decrement(self) -> None:
-        self.pos -= STEP_INCREMENT
+        self.pos -= self._step_increment
 
     def __eq__(self, other) -> bool:
         if type(self) is type(other):
             # Checks whether the positions are within the deadzone defined by half of the length of a single step.
-            return abs(self.pos - other.pos) <= STEP_INCREMENT / 2
+            return abs(self.pos - other.pos) <= self._step_increment / 2
         raise TypeError("You can only compare a Position with another Position")
 
     def __lt__(self, other) -> bool:
