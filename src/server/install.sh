@@ -35,7 +35,7 @@ install_server_pkg() {
     my_echo "Installing PALMS on remote host"
     ssh "$REMOTE" "
         cd ~/server/
-        sudo python3 -m pip install .
+        sudo python3 -m pip install --upgrade .
     "
 }
 
