@@ -5,6 +5,7 @@ After=multi-user.target
 [Service]
 Type=simple
 ExecStart=python3 -u -m server
+Environment="LOG_LEVEL=INFO"
 Restart=always
 
 [Install]
