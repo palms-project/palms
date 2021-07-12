@@ -17,9 +17,9 @@ A_AXIS_STEP_INCREMENT = 4 / 170
 CW = 1  # clockwise rotation
 CCW = 0  # counterclockwise rotation
 
-# b-axis is flipped
-B_AXIS_CW = 0
-B_AXIS_CCW = 1
+# Some axes are flipped
+ALT_CW = 0
+ALT_CCW = 1
 
 STEP_X = 11  # x-axis step GPIO pin
 DIR_X = 13  # x-axis direction GPIO pin
@@ -45,9 +45,9 @@ def run() -> None:
 
     x_axis = Axis(STEP_X, DIR_X, STEP_INCREMENT, CW, CCW, "x")
     y_axis = Axis(STEP_Y, DIR_Y, STEP_INCREMENT, CW, CCW, "y")
-    z_axis = Axis(STEP_Z, DIR_Z, STEP_INCREMENT, CW, CCW, "z")
+    z_axis = Axis(STEP_Z, DIR_Z, STEP_INCREMENT, ALT_CW, ALT_CCW, "z")
     a_axis = Axis(STEP_A, DIR_A, A_AXIS_STEP_INCREMENT, CW, CCW, "a")
-    b_axis = Axis(STEP_B, DIR_B, STEP_INCREMENT, B_AXIS_CW, B_AXIS_CCW, "b")
+    b_axis = Axis(STEP_B, DIR_B, STEP_INCREMENT, ALT_CW, ALT_CCW, "b")
 
     logging.info("Controller loop starting")
     while True:
