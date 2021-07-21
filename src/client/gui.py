@@ -12,8 +12,8 @@ current_data = {"x": 0.0, "y": 0.0, "z": 0.0, "a": 0.0, "b": 0.0}
 def update():
     """Update target values on server."""
     new_data = {"x": x_target.get(), "y": y_target.get(), "z": z_target.get(), "a": a_target.get(), "b": b_target.get()}
-    send_data.send(changed_values(new_data, current_data))
     global current_data
+    send_data.send(changed_values(new_data, current_data))
     current_data = new_data
 
 
