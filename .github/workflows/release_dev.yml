@@ -22,7 +22,9 @@ jobs:
           python -m pip install pyinstaller
 
       - name: Build
-        run: make pyinstaller
+        run: |
+          make pyinstaller
+          mv dist/palms.exe dist/palms-dev.exe
 
       - name: Release
         uses: "marvinpinto/action-automatic-releases@latest"
