@@ -3,7 +3,7 @@ import tkinter as tk
 import send_data
 
 root = tk.Tk()
-root.title("PALMS v0.4.0")
+root.title("PALMS v0.4.1")
 root.geometry("600x400")
 
 current_data = {"x": 0.0, "y": 0.0, "z": 0.0, "a": 0.0, "b": 0.0}
