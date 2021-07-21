@@ -29,8 +29,8 @@ class RequestHandler(socketserver.BaseRequestHandler):
         """
         data_str = self.request.recv(1024)
         logging.info(f"Current targets: {data.data}")
-        data.data.update(json.loads(data_str))
-        logging.info(f"New targets: {data.data}")
+        data.data = {**data.data, **json.loads(data_str)}
+        logging.info(f"New target: {data.data}")
 
     def finish(self) -> None:
         logging.debug("Handled new request")
