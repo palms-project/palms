@@ -28,9 +28,9 @@ class RequestHandler(socketserver.BaseRequestHandler):
         If JSON can't be loaded, then it must be a zero command
         """
         data_str = self.request.recv(1024)
-        logging.info(f"Current targets: {data.targets}")
-        data.targets = json.loads(data_str)
-        logging.info(f"New targets: {data.targets}")
+        logging.info(f"Current targets: {data.data}")
+        data.data = {**data.data, **json.loads(data_str)}
+        logging.info(f"New targets: {data.data}")
 
     def finish(self) -> None:
         logging.debug("Handled new request")

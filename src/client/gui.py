@@ -6,15 +6,17 @@ root = tk.Tk()
 root.title("PALMS v0.2.1")
 root.geometry("600x400")
 
+current_data = {"x": 0.0, "y": 0.0, "z": 0.0, "a": 0.0, "b": 0.0}
+
 
 def update():
     """Update target values on server."""
-    x = x_target.get()
-    y = y_target.get()
-    z = z_target.get()
-    a = a_target.get()
-    b = b_target.get()
-    send_data.send({"x": x, "y": y, "z": z, "a": a, "b": b})
+    new_data = {"x": x_target.get(), "y": y_target.get(), "z": z_target.get(), "a": a_target.get(), "b": b_target.get()}
+    send_data.send(changed_values(new_data, current_data))
+
+
+def changed_values(new_data: dict, current_data: dict) -> dict:
+    return {key: new_data[key] for key, current_value in current_data.items() if new_data[key] != current_value}
 
 
 # Axis Value tkinter Variables

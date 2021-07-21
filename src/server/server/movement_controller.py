@@ -51,13 +51,13 @@ def run() -> None:
 
     logging.info("Controller loop starting")
     while True:
-        x_axis.target_position = data.targets["x"]
-        y_axis.target_position = data.targets["y"]
-        z_axis.target_position = data.targets["z"]
-        a_axis.target_position = data.targets["a"]
-        b_axis.target_position = data.targets["b"]
+        x_axis.target_position = data.data["x"]
+        y_axis.target_position = data.data["y"]
+        z_axis.target_position = data.data["z"]
+        a_axis.target_position = data.data["a"]
+        b_axis.target_position = data.data["b"]
 
-        logging.debug(f"Targets: {data.targets}")
+        logging.debug(f"Targets: {data.data}")
 
         if not is_in_position(x_axis, y_axis, z_axis, a_axis, b_axis):
             logging.debug("Not in position")
