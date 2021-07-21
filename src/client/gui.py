@@ -13,6 +13,8 @@ def update():
     """Update target values on server."""
     new_data = {"x": x_target.get(), "y": y_target.get(), "z": z_target.get(), "a": a_target.get(), "b": b_target.get()}
     send_data.send(changed_values(new_data, current_data))
+    global current_data
+    current_data = new_data
 
 
 def changed_values(new_data: dict, current_data: dict) -> dict:
@@ -60,5 +62,6 @@ b_label.grid(row=4, column=0)
 b_entry.grid(row=4, column=1)
 
 update_button.grid(row=5, column=1)
+
 
 root.mainloop()
