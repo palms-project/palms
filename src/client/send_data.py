@@ -1,4 +1,4 @@
-__all__ = ["send"]
+__all__ = ["send", "ConnectionError"]
 
 import json
 import socket
@@ -11,5 +11,20 @@ def send(data: dict) -> None:
     serialized_data = json.dumps(data)
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        sock.connect(SERVER_ADDRESS)
-        sock.sendall(bytes(serialized_data + "\n", "utf-8"))
+        try:
+            sock.connect(SERVER_ADDRESS)
+        except socket.gaierror as e:
+            raise ConnectionError(
+                f'Address-related error connecting to server.\nCheck server is on and running.\n\nLib says: "{e.__class__.__module__}.{e.__class__.__qualname__}: {e}"'
+            )
+        except socket.error as e:
+            raise ConnectionError(
+                f'General connection error.\nCheck server is on and running.\n\nLib says: "{e.__class__.__module__}.{e.__class__.__qualname__}: {e}"'
+            )
+        else:
+            sock.sendall(bytes(serialized_data + "\n", "utf-8"))
+
+
+class ConnectionError(Exception):
+    def __init__(self, message: str):
+        self.message = message
