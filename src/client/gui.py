@@ -4,7 +4,6 @@ import send_data
 
 FONT = ("calibre", 14, "normal")
 BOLD_FONT = ("calibre", 14, "bold")
-SMALL_FONT = ("calibre", 12, "normal")
 
 
 class MainApplication:
@@ -15,29 +14,13 @@ class MainApplication:
         self.master.geometry("")
         self.master.resizable(False, False)
 
-        self.x_position, self.x_label, self.x_entry = self.axis_widgets("X ±25mm")
-        self.y_position, self.y_label, self.y_entry = self.axis_widgets("Y ±25mm")
-        self.z_position, self.z_label, self.z_entry = self.axis_widgets("Z ±25mm")
-        self.a_position, self.a_label, self.a_entry = self.axis_widgets("Rotational ±45°")
-        self.b_position, self.b_label, self.b_entry = self.axis_widgets("Collimator ±25mm")
+        self.x_position, self.x_label, self.x_entry = self.axis_widgets("X ±25mm", 0)
+        self.y_position, self.y_label, self.y_entry = self.axis_widgets("Y ±25mm", 1)
+        self.z_position, self.z_label, self.z_entry = self.axis_widgets("Z ±25mm", 2)
+        self.a_position, self.a_label, self.a_entry = self.axis_widgets("Rotational ±45°", 3)
+        self.b_position, self.b_label, self.b_entry = self.axis_widgets("Collimator ±25mm", 4)
 
         self.update_button = tk.Button(self.frame, text="Update", command=self.update, font=FONT)
-
-        self.x_label.grid(row=0, column=0)
-        self.x_entry.grid(row=0, column=1)
-
-        self.y_label.grid(row=1, column=0)
-        self.y_entry.grid(row=1, column=1)
-
-        self.z_label.grid(row=2, column=0)
-        self.z_entry.grid(row=2, column=1)
-
-        self.a_label.grid(row=3, column=0)
-        self.a_entry.grid(row=3, column=1)
-
-        self.b_label.grid(row=4, column=0)
-        self.b_entry.grid(row=4, column=1)
-
         self.update_button.grid(row=5, column=1)
 
         self.frame.pack()
@@ -64,10 +47,10 @@ class MainApplication:
         else:
             DialogBox(tk.Toplevel(self.master), "Invalid Position(s)", "One or more entered positions are invalid.")
 
-    def axis_widgets(self, label_text: str):
+    def axis_widgets(self, label_text: str, row: int):
         position_var = self.position_var()
-        position_label = self.position_label(label_text)
-        position_entry = self.position_entry(position_var)
+        position_label = self.position_label(label_text).grid(row=row, column=0)
+        position_entry = self.position_entry(position_var).grid(row=row, column=1)
         return position_var, position_label, position_entry
 
     def position_var(self) -> tk.DoubleVar:
