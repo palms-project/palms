@@ -1,5 +1,6 @@
 import json
 import tkinter as tk
+import traceback
 from pathlib import Path
 
 import appdirs
@@ -12,6 +13,7 @@ BOLD_FONT = ("calibre", 14, "bold")
 class MainApplication:
     def __init__(self, master: tk.Tk):
         self.master = master
+        self.master.report_callback_exception = self.report_callback_exception
         self.frame = tk.Frame(master)
         self.master.title("PALMS v0.6.0")
         self.master.geometry("")
@@ -129,6 +131,13 @@ class MainApplication:
     @staticmethod
     def change_position_scale(positions: dict) -> dict:
         return {key: val + 45 if key == "a" else val + 25 for key, val in positions.items()}
+
+    def report_callback_exception(self, *args):
+        DialogBox(
+            tk.Toplevel(self.master),
+            "Error",
+            f"An unexpected error has occurred.\nTraceback:\n\n{''.join(traceback.format_exception(*args))}",
+        )
 
 
 class Settings:
