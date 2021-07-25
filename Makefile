@@ -1,4 +1,4 @@
-.PHONY: clean lint pre-commit pyspec pyinstaller
+.PHONY: clean lint pre-commit pyspec pyinstaller deps
 
 #################################################################################
 # COMMANDS                                                                      #
@@ -18,6 +18,10 @@ clean:
 ## Lint using pre-commit
 lint:
 	pre-commit run --all-files
+
+## Install dependencies for development
+deps:
+	pip install --upgrade -r src/client/requirements.txt
 
 ## Make pyinstaller spec file
 pyspec:
