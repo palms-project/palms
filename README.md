@@ -11,7 +11,7 @@
 </div>
 
 > **PALMS**: Precision Accurate LIBS Movement System
-
+>
 > **LIBS**: Laser Induced Breakdown Spectroscopy
 
 PALMS is 5-axis positioning system that optimizes LIBS by replacing human hands with a robotic arm to ensure high standards of data quality, efficiency, replicability, and safety.
