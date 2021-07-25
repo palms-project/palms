@@ -22,6 +22,9 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install pyinstaller
 
+      - name: Install Dependencies
+        run: make deps
+
       - name: Build
         run: make pyinstaller
 
