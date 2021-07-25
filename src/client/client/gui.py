@@ -13,7 +13,7 @@ class MainApplication:
     def __init__(self, master: tk.Tk):
         self.master = master
         self.frame = tk.Frame(master)
-        self.master.title("PALMS v0.5.0")
+        self.master.title("PALMS v0.6.0")
         self.master.geometry("")
         self.master.resizable(False, False)
         self.master.grid_columnconfigure(0, weight=1, uniform="spam")
