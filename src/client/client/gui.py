@@ -71,11 +71,11 @@ class MainApplication:
         return tk.Entry(self.frame, textvariable=textvar, font=FONT)
 
     def enable_legacy_position_indicator(self) -> None:
-        self.x_lpi_label = tk.Label(self.frame, text="X: 25", font=FONT, padx=10, pady=10)
-        self.y_lpi_label = tk.Label(self.frame, text="Y: 25", width=6, font=FONT, padx=10, pady=10)
-        self.z_lpi_label = tk.Label(self.frame, text="Z: 25", width=4, font=FONT, padx=10, pady=10)
-        self.a_lpi_label = tk.Label(self.frame, text="A: 25", width=4, font=FONT, padx=10, pady=10)
-        self.b_lpi_label = tk.Label(self.frame, text="B: 25", width=4, font=FONT, padx=10, pady=10)
+        self.x_lpi_label = tk.Label(self.frame, text="X: 25", font=FONT, padx=10)
+        self.y_lpi_label = tk.Label(self.frame, text="Y: 25", font=FONT, padx=10)
+        self.z_lpi_label = tk.Label(self.frame, text="Z: 25", font=FONT, padx=10)
+        self.a_lpi_label = tk.Label(self.frame, text="A: 25", font=FONT, padx=10)
+        self.b_lpi_label = tk.Label(self.frame, text="B: 25", font=FONT, padx=10)
 
         self.x_lpi_label.grid(row=0, column=3, sticky="nesw")
         self.y_lpi_label.grid(row=1, column=3, sticky="nesw")
