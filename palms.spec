@@ -5,8 +5,8 @@ block_cipher = None
 
 
 a = Analysis(
-    ["src/client/gui.py"],
-    pathex=["src/client/", "."],
+    ["src/client/client/gui.py"],
+    pathex=["src/client/client/", "."],
     binaries=[],
     datas=[],
     hiddenimports=[],
