@@ -15,7 +15,7 @@ class MainApplication:
         self.master = master
         self.master.report_callback_exception = self.report_callback_exception
         self.frame = tk.Frame(master)
-        self.master.title("PALMS v0.6.0")
+        self.master.title("PALMS v0.7.0")
         self.master.geometry("")
         self.master.resizable(False, False)
         self.master.grid_columnconfigure(0, weight=1, uniform="spam")
