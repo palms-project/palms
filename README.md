@@ -2,11 +2,11 @@
 
 # PALMS
 
-<img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/RE-PALMS/PALMS?label=Github%20Release&logo=Github">
-<img alt="GitHub Workflow Status (branch)" src="https://img.shields.io/github/workflow/status/RE-PALMS/PALMS/Development%20Release/master?label=Build&logo=Github">
-<img alt="GitHub" src="https://img.shields.io/github/license/RE-PALMS/PALMS?label=License">
-<a href="https://results.pre-commit.ci/latest/github/RE-PALMS/PALMS/master"><img alt="pre-commit.ci status" src="https://results.pre-commit.ci/badge/github/RE-PALMS/PALMS/master.svg"></a>
-<a href="https://www.codefactor.io/repository/github/re-palms/palms"><img src="https://www.codefactor.io/repository/github/re-palms/palms/badge" alt="CodeFactor" /></a>
+<img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/palms-project/palms?label=Github%20Release&logo=Github">
+<img alt="GitHub Workflow Status (branch)" src="https://img.shields.io/github/workflow/status/palms-project/palms/Development%20Release/master?label=Build&logo=Github">
+<img alt="GitHub" src="https://img.shields.io/github/license/palms-project/palms?label=License">
+<a href="https://results.pre-commit.ci/latest/github/palms-project/palms/master"><img alt="pre-commit.ci status" src="https://results.pre-commit.ci/badge/github/palms-project/palms/master.svg"></a>
+<a href="https://www.codefactor.io/repository/github/palms-project/palms"><img src="https://www.codefactor.io/repository/github/palms-project/palms/badge" alt="CodeFactor" /></a>
 
 </div>
 
@@ -22,7 +22,7 @@ The PALMS system is split into two parts: the client and the server. The client 
 
 ### Client
 
-The client is available as a Windows executable. You can retrieve the latest stable version [here](https://github.com/RE-PALMS/PALMS/releases/latest), and you can find the latest pre-release [here](https://github.com/RE-PALMS/PALMS/releases/tag/latest).
+The client is available as a Windows executable. You can retrieve the latest stable version [here](https://github.com/palms-project/palms/releases/latest), and you can find the latest pre-release [here](https://github.com/palms-project/palms/releases/tag/latest).
 
 On each release, the Windows executable is available as `palms.exe`. Download it and run it directly. Windows SmartScreen may throw up a warning; if it does click `More info` and then `Run anyway`.
 
@@ -46,7 +46,7 @@ To use it, you must configure it as shown below.
 To run the script:
 
 ```shell
-git clone https://github.com/RE-PALMS/PALMS
+git clone https://github.com/palms-project/palms
 cd PALMS
 ./src/server/install.sh
 ```
