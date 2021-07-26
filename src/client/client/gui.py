@@ -49,19 +49,37 @@ class MainApplication:
             text="Update",
             command=self.update,
             font=FONT,
-        ).grid(row=0, column=0, padx=10, pady=10, sticky="nesw")
+            bg="#000000",  # black
+            fg="#FFFFFF",  # white
+            activeforeground="#000000",  # black
+            activebackground="#FFFFFF",  # white
+        )
+
         self.lock_button = tk.Button(
             self.buttons_widget,
             text="Lock",
             #            command=print,
             font=FONT,
-        ).grid(row=0, column=1, padx=10, pady=10, sticky="nesw")
+            bg="#000000",  # black
+            fg="#FFFFFF",  # white
+            activeforeground="#000000",  # black
+            activebackground="#FFFFFF",  # white
+        )
+
         self.settings_button = tk.Button(
             self.buttons_widget,
             text="Settings",
             #            command=lambda: SettingsWindow(tk.Toplevel(self.master), self.settings),
             font=FONT,
-        ).grid(row=0, column=2, padx=10, pady=10, sticky="nesw")
+            bg="#000000",  # black
+            fg="#FFFFFF",  # white
+            activeforeground="#000000",  # black
+            activebackground="#FFFFFF",  # white
+        )
+
+        self.update_button.grid(row=0, column=0, padx=10, pady=10, sticky="nesw")
+        self.lock_button.grid(row=0, column=1, padx=10, pady=10, sticky="nesw")
+        self.settings_button.grid(row=0, column=2, padx=10, pady=10, sticky="nesw")
 
         self.buttons_widget.grid(row=5, columnspan=2)
 
