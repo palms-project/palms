@@ -38,23 +38,32 @@ class MainApplication:
         self.b_position, self.b_label, self.b_entry = self.axis_widgets("Collimator 0-50mm", 4)
 
     def make_buttons(self) -> None:
-        self.update_button = tk.Button(self.frame, text="Update", command=self.update, font=FONT).grid(
-            row=5, column=1, padx=10, pady=10, sticky="nesw"
-        )
+        self.buttons_widget = tk.Frame(self.frame)
+
+        self.buttons_widget.grid_columnconfigure(0, weight=2, minsize=410, uniform="spam")
+        self.buttons_widget.grid_columnconfigure(1, weight=1, uniform="spam")
+        self.buttons_widget.grid_columnconfigure(2, weight=1, uniform="spam")
+
+        self.update_button = tk.Button(
+            self.buttons_widget,
+            text="Update",
+            command=self.update,
+            font=FONT,
+        ).grid(row=0, column=0, padx=10, pady=10, sticky="nesw")
         self.lock_button = tk.Button(
-            self.frame,
-            text="Lock (placeholder)",
+            self.buttons_widget,
+            text="Lock",
             #            command=print,
             font=FONT,
-        ).grid(  # TODO: Add lock functionality
-            row=5, column=0, padx=10, pady=10, sticky="nesw"
-        )
+        ).grid(row=0, column=1, padx=10, pady=10, sticky="nesw")
         self.settings_button = tk.Button(
-            self.frame,
+            self.buttons_widget,
             text="Settings",
             #            command=lambda: SettingsWindow(tk.Toplevel(self.master), self.settings),
             font=FONT,
-        ).grid(row=6, column=0, columnspan=2, padx=10, pady=10, sticky="nesw")
+        ).grid(row=0, column=2, padx=10, pady=10, sticky="nesw")
+
+        self.buttons_widget.grid(row=5, columnspan=2)
 
     def axis_widgets(self, label_text: str, row: int):
         position_var = self.position_var()
