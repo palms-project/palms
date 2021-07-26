@@ -1,4 +1,4 @@
-__all__ = ["send", "ConnectionError"]
+__all__ = ["send", "ServerConnectionError"]
 
 import json
 import socket
@@ -14,17 +14,17 @@ def send(data: dict) -> None:
         try:
             sock.connect(SERVER_ADDRESS)
         except socket.gaierror as e:
-            raise ConnectionError(
+            raise ServerConnectionError(
                 f'Address-related error connecting to server.\nCheck server is on and running.\n\nLib says: "{e.__class__.__module__}.{e.__class__.__qualname__}: {e}"'
             )
         except socket.error as e:
-            raise ConnectionError(
+            raise ServerConnectionError(
                 f'General connection error.\nCheck server is on and running.\n\nLib says: "{e.__class__.__module__}.{e.__class__.__qualname__}: {e}"'
             )
         else:
             sock.sendall(bytes(serialized_data + "\n", "utf-8"))
 
 
-class ConnectionError(Exception):
+class ServerConnectionError(Exception):
     def __init__(self, message: str):
         self.message = message

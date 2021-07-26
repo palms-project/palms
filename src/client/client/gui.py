@@ -108,7 +108,7 @@ class MainApplication:
         if self.verify_positions(new_data):
             try:
                 send_data.send(self.change_position_scale(self.changed_values(new_data, self.current_data)))
-            except send_data.ConnectionError as e:
+            except send_data.ServerConnectionError as e:
                 DialogBox(tk.Toplevel(self.master), "Error Updating Targets", e.message)
             else:
                 self.current_data = new_data
