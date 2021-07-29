@@ -1,18 +1,26 @@
-__all__ = ["send", "ServerConnectionError"]
+__all__ = ["send_positions", "send_commands", "ServerConnectionError"]
 
 import json
 import socket
 
-SERVER_ADDRESS = ("raspberrypi.local", 35007)
+HOSTNAME = "raspberrypi.local"
 
 
-def send(data: dict) -> None:
+def send_positions(data: dict) -> None:
+    send(data, 35007)
+
+
+def send_commands(data: dict) -> None:
+    send(data, 35008)
+
+
+def send(data: dict, port: int) -> None:
     """Send data to server by serializing the provided dict and sending it."""
     serialized_data = json.dumps(data)
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         try:
-            sock.connect(SERVER_ADDRESS)
+            sock.connect((HOSTNAME, port))
         except socket.gaierror as e:
             raise ServerConnectionError(
                 f'Address-related error connecting to server.\nCheck server is on and running.\n\nLib says: "{e.__class__.__module__}.{e.__class__.__qualname__}: {e}"'

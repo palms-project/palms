@@ -18,7 +18,12 @@ def main():
     movement_system_thread = Thread(target=movement_controller.run, daemon=True)
     movement_system_thread.start()
     logging.info("Movement system thread started.")
-    receive_data.serve()
+
+    commands_server_thread = Thread(target=receive_data.serve_commands, daemon=True)
+    commands_server_thread.start()
+    logging.info("Commands server thread started.")
+
+    receive_data.serve_positions()
 
 
 if __name__ == "__main__":

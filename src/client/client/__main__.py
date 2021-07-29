@@ -4,31 +4,36 @@ import traceback
 from pathlib import Path
 
 import appdirs
-import send_data
 
-FONT = ("calibre", 14, "normal")
-BOLD_FONT = ("calibre", 14, "bold")
+from . import send_data
+from .__init__ import __version__
+
+FONT = ("calibre", 15, "normal")
+BOLD_FONT = ("calibre", 15, "bold")
 
 
 class MainApplication:
     def __init__(self, master: tk.Tk):
         self.master = master
         self.master.report_callback_exception = self.report_callback_exception
-        self.frame = tk.Frame(master)
-        self.master.title("PALMS v0.7.0")
+        self.master.title(f"PALMS v{__version__}")
         self.master.geometry("")
         self.master.resizable(False, False)
-        self.master.grid_columnconfigure(0, weight=1, uniform="spam")
-        self.master.grid_columnconfigure(1, weight=1, uniform="spam")
+
+        self.entries_frame = tk.Frame(self.master, padx=10, pady=5)
+        self.buttons_frame = tk.Frame(self.master)
 
         self.make_axis_widgets()
         self.make_buttons()
 
         self.settings = Settings()
+        self.settings.add_setting("Lock Time", 30)
 
-        self.frame.pack()
+        self.entries_frame.grid(row=0, sticky="nesw")
+        self.buttons_frame.grid(row=1, sticky="nesw")
 
         self.current_data = {"x": 0.0, "y": 0.0, "z": 0.0, "a": 0.0, "b": 0.0}
+        self.current_commands = {"lock": False, "lock_time": 30}
 
     def make_axis_widgets(self) -> None:
         self.x_position, self.x_label, self.x_entry = self.axis_widgets("X 0-50mm", 0)
@@ -38,41 +43,32 @@ class MainApplication:
         self.b_position, self.b_label, self.b_entry = self.axis_widgets("Collimator 0-50mm", 4)
 
     def make_buttons(self) -> None:
-        self.buttons_widget = tk.Frame(self.frame)
-
-        self.buttons_widget.grid_columnconfigure(0, weight=2, minsize=410, uniform="spam")
-        self.buttons_widget.grid_columnconfigure(1, weight=1, uniform="spam")
-        self.buttons_widget.grid_columnconfigure(2, weight=1, uniform="spam")
+        self.buttons_frame.grid_columnconfigure(0, weight=1000)  # arbitrary high number
+        self.buttons_frame.grid_columnconfigure((1, 2), weight=1)
 
         self.update_button = tk.Button(
-            self.buttons_widget,
+            self.buttons_frame,
             text="Update",
             command=self.update,
             font=FONT,
-            bg="#000000",  # black
-            fg="#FFFFFF",  # white
             activeforeground="#000000",  # black
             activebackground="#FFFFFF",  # white
         )
 
         self.lock_button = tk.Button(
-            self.buttons_widget,
+            self.buttons_frame,
             text="Lock",
-            #            command=print,
+            command=self.lock_action,
             font=FONT,
-            bg="#000000",  # black
-            fg="#FFFFFF",  # white
             activeforeground="#000000",  # black
             activebackground="#FFFFFF",  # white
         )
 
         self.settings_button = tk.Button(
-            self.buttons_widget,
+            self.buttons_frame,
             text="Settings",
-            #            command=lambda: SettingsWindow(tk.Toplevel(self.master), self.settings),
+            command=lambda: SettingsWindow(tk.Toplevel(self.master), self.settings),
             font=FONT,
-            bg="#000000",  # black
-            fg="#FFFFFF",  # white
             activeforeground="#000000",  # black
             activebackground="#FFFFFF",  # white
         )
@@ -81,9 +77,9 @@ class MainApplication:
         self.lock_button.grid(row=0, column=1, padx=10, pady=10, sticky="nesw")
         self.settings_button.grid(row=0, column=2, padx=10, pady=10, sticky="nesw")
 
-        self.buttons_widget.grid(row=5, columnspan=2)
+        self.buttons_frame.grid(row=6, columnspan=2, sticky="nesw")
 
-    def axis_widgets(self, label_text: str, row: int):
+    def axis_widgets(self, label_text: str, row: int) -> tuple:
         position_var = self.position_var()
         position_label = self.position_label(label_text).grid(row=row, column=0)
         position_entry = self.position_entry(position_var).grid(row=row, column=1)
@@ -93,10 +89,22 @@ class MainApplication:
         return tk.DoubleVar(value=0)
 
     def position_label(self, text: str) -> tk.Label:
-        return tk.Label(self.frame, text=text, width=17, anchor=tk.W, font=BOLD_FONT)
+        return tk.Label(self.entries_frame, text=text, width=17, anchor=tk.W, font=BOLD_FONT)
 
     def position_entry(self, textvar: tk.DoubleVar) -> tk.Entry:
-        return tk.Entry(self.frame, textvariable=textvar, font=FONT)
+        return tk.Entry(self.entries_frame, textvariable=textvar, font=FONT)
+
+    def lock_action(self) -> None:
+        try:
+            send_data.send_commands({"lock": not self.current_commands["lock"]})
+        except send_data.ServerConnectionError as e:
+            DialogBox(tk.Toplevel(self.master), "Error Locking or Unlocking", e.message)
+        else:
+            self.current_commands["lock"] = not self.current_commands["lock"]
+            if self.current_commands["lock"]:
+                self.lock_button.configure(text="Unlock")
+            else:
+                self.lock_button.configure(text="Lock")
 
     def update(self) -> None:
         """Update target values on server"""
@@ -110,7 +118,7 @@ class MainApplication:
 
         if self.verify_positions(new_data):
             try:
-                send_data.send(self.changed_values(new_data, self.current_data))
+                send_data.send_positions(self.changed_values(new_data, self.current_data))
             except send_data.ServerConnectionError as e:
                 DialogBox(tk.Toplevel(self.master), "Error Updating Targets", e.message)
             else:
@@ -131,7 +139,7 @@ class MainApplication:
                 return False
         return True
 
-    def report_callback_exception(self, *args):
+    def report_callback_exception(self, *args) -> None:
         DialogBox(
             tk.Toplevel(self.master),
             "Error",
@@ -148,16 +156,16 @@ class Settings:
     def __getitem__(self, key):
         return self._state[key]
 
-    def __setitem__(self, key, value):
+    def __setitem__(self, key, value) -> None:
         self._state[key] = value
         with open(self._settings_path, "w") as settings_file:
             json.dump(self._state, settings_file)
 
-    def __contains__(self, m):
+    def __contains__(self, m) -> bool:
         return m in self._state
 
-    def _make_settings_path(self):
-        settings_path = Path(appdirs.user_config_dir("PALMS", "RE")) / "settings.json"
+    def _make_settings_path(self) -> Path:
+        settings_path = Path(appdirs.user_config_dir("PALMS", "RE", version=__version__)) / "settings.json"
 
         settings_path.parents[0].mkdir(parents=True, exist_ok=True)
 
@@ -168,7 +176,7 @@ class Settings:
 
         return settings_path
 
-    def add_setting(self, name: str, default_state: bool) -> None:
+    def add_setting(self, name: str, default_state) -> None:
         if name not in self:
             self[name] = default_state
 
@@ -176,10 +184,12 @@ class Settings:
 class SettingsWindow:
     def __init__(self, master: tk.Toplevel, settings):
         self.master = master
-        self.frame = tk.Frame(master)
+        self.frame = tk.Frame(master, padx=10, pady=10)
         self.master.title("Settings")
         self.master.geometry("")
         self.master.resizable(False, False)
+
+        self.frame.grid_columnconfigure((0, 1, 2), weight=1)
 
         # Make settings window grab focus so there can only be one spawned
         self.frame.focus_set()
@@ -187,17 +197,24 @@ class SettingsWindow:
 
         self.settings = settings
 
+        self.lock_time_label = tk.Label(self.frame, text="Lock Time", font=BOLD_FONT, padx=10, pady=10)
+        self.lock_time_label.grid(row=0, column=0, sticky="nesw")
+        self.lock_time_var = tk.IntVar(value=30)
+        self.lock_time_entry = tk.Entry(self.frame, textvariable=self.lock_time_var, font=FONT)
+        self.lock_time_entry.grid(row=0, column=1, padx=10, pady=10, sticky="nesw")
+        self.lock_time_button = tk.Button(
+            self.frame,
+            text="Update",
+            font=FONT,
+            command=lambda: send_data.send_commands({"lock_time": self.lock_time_var.get()}),
+            activeforeground="#000000",  # black
+            activebackground="#FFFFFF",  # white
+        )
+        self.lock_time_button.grid(row=0, column=2, padx=10, pady=10, sticky="nesw")
+
         self.frame.pack()
 
-    def setting_widgets(self, name: str, row: int):
-        setting_label = self.setting_label(name).grid(row=row, column=0, padx=10, pady=10)
-        setting_button = self.setting_button(name).grid(row=row, column=1)
-        return setting_label, setting_button
-
-    def setting_label(self, name: str):
-        return tk.Label(self.frame, text=name, font=BOLD_FONT)
-
-    def setting_button(self, name: str):
+    def setting_button(self, name: str) -> tk.Button:
         setting_button = tk.Button(
             self.frame, text="Turn Off" if self.settings[name] else "Turn On", font=FONT, padx=10, pady=30
         )
@@ -234,7 +251,7 @@ class DialogBox:
         self.frame.pack()
 
 
-def main():
+def main() -> None:
     root = tk.Tk()
     MainApplication(root)
     root.mainloop()

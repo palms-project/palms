@@ -38,6 +38,8 @@ DIR_B = 5  # b-axis direction GPIO pin
 
 SLEEP = 15  # sleep GPIO pin
 
+time_locked = None
+
 
 def run() -> None:
     """Receive movement instructions and execute until stopped."""
@@ -51,13 +53,16 @@ def run() -> None:
 
     logging.info("Controller loop starting")
     while True:
+        logging.debug(f"Targets: {data.data}")
         x_axis.target_position = data.data["x"]
         y_axis.target_position = data.data["y"]
         z_axis.target_position = data.data["z"]
         a_axis.target_position = data.data["a"]
         b_axis.target_position = data.data["b"]
 
-        logging.debug(f"Targets: {data.data}")
+        logging.debug(f"Commands: {data.commands}")
+
+        lock_command()
 
         if not is_in_position(x_axis, y_axis, z_axis, a_axis, b_axis):
             logging.debug("Not in position")
@@ -85,14 +90,58 @@ def run() -> None:
         logging.debug("End of loop\n")
 
 
+def lock_command() -> None:
+    """
+    If the current lock command is set to 'lock', the system will lock
+
+    If the current lock command is null (neither commanded explicitly to lock or unlock)
+    we check if currently locked (with time_locked) and if lock_time > threshold we unlock
+
+    If set to explicitly unlock we unlock
+    """
+    global time_locked
+    if data.commands["lock"]:
+        logging.info("Commanded to lock")
+        lock()
+    elif data.commands["lock"] is None:
+        if time_locked and time.time() - time_locked > data.commands["lock_time"]:
+            logging.info(f"Max lock time of {data.commands['lock_time']} exceeded")
+            unlock()
+    else:
+        logging.info("Commanded to unlock")
+        unlock()
+
+
+def lock() -> None:
+    logging.info("Locking")
+    GPIO.output(SLEEP, GPIO.HIGH)
+    data.commands["lock"] = None
+    logging.debug("lock command set back to null")
+
+    global time_locked
+    time_locked = time.time()
+    logging.info(f"Locked at {time_locked}")
+
+
+def unlock() -> None:
+    logging.info("Unlocking")
+    GPIO.output(SLEEP, GPIO.LOW)
+    data.commands["lock"] = None
+    logging.debug("lock command set back to null")
+
+    global time_locked
+    logging.info(f"Unlocked after {time.time() - time_locked}s")
+    time_locked = None
+
+
 def wake_up() -> None:
     GPIO.output(SLEEP, GPIO.HIGH)
-    logging.debug("Sleep pin set to low")
+    logging.debug("Sleep pin set to high")
 
 
 def sleep() -> None:
     GPIO.output(SLEEP, GPIO.LOW)
-    logging.debug("Sleep pin set to high")
+    logging.debug("Sleep pin set to low")
 
 
 def is_in_position(*axes) -> bool:
