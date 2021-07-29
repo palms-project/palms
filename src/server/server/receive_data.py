@@ -42,7 +42,7 @@ class PositionsRequestHandler(MyRequestHandler):
         data_str = self.request.recv(1024)
         logging.info(f"Current targets: {data.data}")
         data.data = {**data.data, **json.loads(data_str)}
-        logging.info(f"New target: {data.data}")
+        logging.info(f"New targets: {data.data}")
 
 
 class CommandsRequestHandler(MyRequestHandler):
