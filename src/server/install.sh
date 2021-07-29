@@ -46,7 +46,7 @@ install_systemd_service() {
         sudo mv ./palms.service /etc/systemd/system/palms.service
         sudo systemctl daemon-reload
         sudo systemctl enable palms.service
-        sudo systemctl start palms.service
+        sudo systemctl restart palms.service
         sudo systemctl status palms.service
     "
 }
