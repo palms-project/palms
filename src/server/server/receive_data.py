@@ -61,4 +61,4 @@ class LoggingTCPServer(socketserver.TCPServer):
     def server_activate(self) -> None:
         """Same as overridden method just with logging"""
         self.socket.listen()
-        logging.info("Server activated. Ready to receive positioning data.")
+        logging.info("Server activated. Ready to receive data.")
