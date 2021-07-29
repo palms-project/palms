@@ -114,7 +114,7 @@ def lock_command() -> None:
 
 def lock() -> None:
     logging.info("Locking")
-    GPIO.output(SLEEP, GPIO.HIGH)
+    GPIO.output(SLEEP, GPIO.LOW)
     data.commands["lock"] = None
     logging.debug("lock command set back to null")
 
@@ -125,7 +125,7 @@ def lock() -> None:
 
 def unlock() -> None:
     logging.info("Unlocking")
-    GPIO.output(SLEEP, GPIO.LOW)
+    GPIO.output(SLEEP, GPIO.HIGH)
     data.commands["lock"] = None
     logging.debug("lock command set back to null")
 
