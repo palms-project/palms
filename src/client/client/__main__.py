@@ -144,10 +144,12 @@ class MainApplication:
 
     @staticmethod
     def verify_positions(positions: dict) -> bool:
+        # sourcery skip: merge-duplicate-blocks, use-any
         for key, val in positions.items():
-            if key == "a" and (val > 90 or val < 0):
-                return False
-            if val > 50 or val < 0:
+            if key == "a":
+                if val > 90 or val < 0:
+                    return False
+            elif val > 50 or val < 0:
                 return False
         return True
 
