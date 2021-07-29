@@ -11,6 +11,8 @@ from .__init__ import __version__
 FONT = ("calibre", 15, "normal")
 BOLD_FONT = ("calibre", 15, "bold")
 
+time_locked = None
+
 
 class MainApplication:
     def __init__(self, master: tk.Tk):
@@ -51,8 +53,8 @@ class MainApplication:
             text="Update",
             command=self.update,
             font=FONT,
-            activeforeground="#000000",  # black
-            activebackground="#FFFFFF",  # white
+            activebackground="#000000",  # black
+            activeforeground="#FFFFFF",  # white
         )
 
         self.lock_button = tk.Button(
@@ -60,8 +62,8 @@ class MainApplication:
             text="Lock",
             command=self.lock_action,
             font=FONT,
-            activeforeground="#000000",  # black
-            activebackground="#FFFFFF",  # white
+            activebackground="#000000",  # black
+            activeforeground="#FFFFFF",  # white
         )
 
         self.settings_button = tk.Button(
@@ -69,8 +71,8 @@ class MainApplication:
             text="Settings",
             command=lambda: SettingsWindow(tk.Toplevel(self.master), self.settings),
             font=FONT,
-            activeforeground="#000000",  # black
-            activebackground="#FFFFFF",  # white
+            activebackground="#000000",  # black
+            activeforeground="#FFFFFF",  # white
         )
 
         self.update_button.grid(row=0, column=0, padx=10, pady=10, sticky="nesw")
@@ -207,8 +209,8 @@ class SettingsWindow:
             text="Update",
             font=FONT,
             command=lambda: send_data.send_commands({"lock_time": self.lock_time_var.get()}),
-            activeforeground="#000000",  # black
-            activebackground="#FFFFFF",  # white
+            activebackground="#000000",  # black
+            activeforeground="#FFFFFF",  # white
         )
         self.lock_time_button.grid(row=0, column=2, padx=10, pady=10, sticky="nesw")
 
