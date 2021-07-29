@@ -5,7 +5,7 @@ block_cipher = None
 
 
 a = Analysis(
-    ["src/client/client/gui.py"],
+    ["src/client/pyinstaller_script.py"],
     pathex=["src/client/client/", "."],
     binaries=[],
     datas=[],
