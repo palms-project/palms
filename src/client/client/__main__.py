@@ -1,4 +1,5 @@
 import json
+import time
 import tkinter as tk
 import traceback
 from pathlib import Path
@@ -11,8 +12,6 @@ from .__init__ import __version__
 FONT = ("calibre", 15, "normal")
 BOLD_FONT = ("calibre", 15, "bold")
 
-time_locked = None
-
 
 class MainApplication:
     def __init__(self, master: tk.Tk):
@@ -21,6 +20,7 @@ class MainApplication:
         self.master.title(f"PALMS v{__version__}")
         self.master.geometry("")
         self.master.resizable(False, False)
+        self.master.after(1000, self.update_lock_button)
 
         self.entries_frame = tk.Frame(self.master, padx=10, pady=5)
         self.buttons_frame = tk.Frame(self.master)
@@ -35,7 +35,8 @@ class MainApplication:
         self.buttons_frame.grid(row=1, sticky="nesw")
 
         self.current_data = {"x": 0.0, "y": 0.0, "z": 0.0, "a": 0.0, "b": 0.0}
-        self.current_commands = {"lock": False, "lock_time": 30}
+        self.current_commands = {"lock": False, "Lock Time": self.settings["Lock Time"]}
+        self.time_locked = None
 
     def make_axis_widgets(self) -> None:
         self.x_position, self.x_label, self.x_entry = self.axis_widgets("X 0-50mm", 0)
@@ -69,7 +70,7 @@ class MainApplication:
         self.settings_button = tk.Button(
             self.buttons_frame,
             text="Settings",
-            command=lambda: SettingsWindow(tk.Toplevel(self.master), self.settings),
+            command=lambda: SettingsWindow(tk.Toplevel(self.master), self.settings, self.current_commands),
             font=FONT,
             activebackground="#000000",  # black
             activeforeground="#FFFFFF",  # white
@@ -104,9 +105,18 @@ class MainApplication:
         else:
             self.current_commands["lock"] = not self.current_commands["lock"]
             if self.current_commands["lock"]:
+                self.time_locked = time.time()
                 self.lock_button.configure(text="Unlock")
             else:
+                self.time_locked = None
                 self.lock_button.configure(text="Lock")
+
+    def update_lock_button(self) -> None:
+        if self.time_locked and time.time() - self.time_locked > self.current_commands["Lock Time"]:
+            self.current_commands["lock"] = False
+            self.lock_button.config(text="Lock")
+            self.time_locked = None
+        self.master.after(1000, self.update_lock_button)
 
     def update(self) -> None:
         """Update target values on server"""
@@ -184,7 +194,7 @@ class Settings:
 
 
 class SettingsWindow:
-    def __init__(self, master: tk.Toplevel, settings):
+    def __init__(self, master: tk.Toplevel, settings, current_commands: dict):
         self.master = master
         self.frame = tk.Frame(master, padx=10, pady=10)
         self.master.title("Settings")
@@ -198,23 +208,33 @@ class SettingsWindow:
         self.frame.grab_set()
 
         self.settings = settings
+        self.current_commands = current_commands
 
-        self.lock_time_label = tk.Label(self.frame, text="Lock Time", font=BOLD_FONT, padx=10, pady=10)
+        self.lock_time_label = tk.Label(self.frame, text="Lock Time (s)", font=BOLD_FONT, padx=10, pady=10)
         self.lock_time_label.grid(row=0, column=0, sticky="nesw")
-        self.lock_time_var = tk.IntVar(value=30)
+        self.lock_time_var = tk.IntVar(value=self.current_commands["Lock Time"])
         self.lock_time_entry = tk.Entry(self.frame, textvariable=self.lock_time_var, font=FONT)
         self.lock_time_entry.grid(row=0, column=1, padx=10, pady=10, sticky="nesw")
         self.lock_time_button = tk.Button(
             self.frame,
             text="Update",
             font=FONT,
-            command=lambda: send_data.send_commands({"lock_time": self.lock_time_var.get()}),
+            command=self.lock_time_button_cmd,
             activebackground="#000000",  # black
             activeforeground="#FFFFFF",  # white
         )
         self.lock_time_button.grid(row=0, column=2, padx=10, pady=10, sticky="nesw")
 
         self.frame.pack()
+
+    def lock_time_button_cmd(self) -> None:
+        try:
+            send_data.send_commands({"Lock Time": self.lock_time_var.get()})
+        except send_data.ServerConnectionError as e:
+            DialogBox(tk.Toplevel(self.master), "Error Updating Lock Time", e.message)
+        else:
+            self.current_commands["Lock Time"] = self.lock_time_var.get()
+            self.settings["Lock Time"] = self.lock_time_var.get()
 
     def setting_button(self, name: str) -> tk.Button:
         setting_button = tk.Button(

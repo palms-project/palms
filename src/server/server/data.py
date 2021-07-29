@@ -2,4 +2,4 @@
 
 data: dict = {"x": 0.0, "y": 0.0, "z": 0.0, "a": 0.0, "b": 0.0}
 
-commands: dict = {"lock": None, "lock_time": 30}
+commands: dict = {"lock": None, "Lock Time": 30}

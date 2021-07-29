@@ -104,7 +104,7 @@ def lock_command() -> None:
         logging.info("Commanded to lock")
         lock()
     elif data.commands["lock"] is None:
-        if time_locked and time.time() - time_locked > data.commands["lock_time"]:
+        if time_locked and time.time() - time_locked > data.commands["Lock Time"]:
             logging.info(f"Max lock time of {data.commands['lock_time']} exceeded")
             unlock()
     else:
