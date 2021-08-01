@@ -24,7 +24,7 @@ The PALMS system is split into two parts: the client and the server. The client 
 
 The client is available as a Windows executable. You can retrieve the latest stable version [here](https://github.com/palms-project/palms/releases/latest), and you can find the latest pre-release [here](https://github.com/palms-project/palms/releases/tag/latest).
 
-On each release, the Windows executable is available as `palms.exe`. Download it and run it directly. Windows SmartScreen may throw up a warning; if it does click `More info` and then `Run anyway`.
+On each release, the Windows executable is available as `palms.exe` (or `palms-dev.exe` for development releases). Download it and run it directly. Windows SmartScreen may throw up a warning; if it does click `More info` and then `Run anyway`.
 
 ### Server
 
