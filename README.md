@@ -14,7 +14,9 @@
 >
 > **LIBS**: Laser Induced Breakdown Spectroscopy
 
-PALMS is 5-axis positioning system that optimizes LIBS by replacing human hands with a robotic arm to ensure high standards of data quality, efficiency, replicability, and safety.
+PALMS is a user-friendly control software for multi-axial LIBS robotic positioning systems.
+
+Such systems optimize LIBS by replacing human hands with robotic equivalents to ensure high standards of data quality, efficiency, replicability, and safety.
 
 The PALMS system is split into two parts: the client and the server. The client runs on the user's Windows PC and the server runs on the Raspberry Pi integrated into the robotic system.
 
