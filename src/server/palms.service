@@ -1,5 +1,5 @@
 [Unit]
-Description=PALMS (Precision Accurate LIBS Movement System)
+Description=PALMS (Precise Acquisition LIBS Movement Software)
 After=multi-user.target
 
 [Service]

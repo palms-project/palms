@@ -10,7 +10,7 @@
 
 </div>
 
-> **PALMS**: Precision Accurate LIBS Movement System
+> **PALMS**: Precise Acquisition LIBS Movement Software
 >
 > **LIBS**: Laser Induced Breakdown Spectroscopy
 
