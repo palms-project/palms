@@ -5,6 +5,7 @@
 <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/palms-project/palms?label=Github%20Release&logo=Github">
 <img alt="GitHub Workflow Status (branch)" src="https://img.shields.io/github/workflow/status/palms-project/palms/Development%20Release/master?label=Build&logo=Github">
 <img alt="GitHub" src="https://img.shields.io/github/license/palms-project/palms?label=License">
+<img alt="Python Versions" src="https://img.shields.io/badge/python-3.6+-blue.svg">
 <a href="https://results.pre-commit.ci/latest/github/palms-project/palms/master"><img alt="pre-commit.ci status" src="https://results.pre-commit.ci/badge/github/palms-project/palms/master.svg"></a>
 <a href="https://www.codefactor.io/repository/github/palms-project/palms"><img src="https://www.codefactor.io/repository/github/palms-project/palms/badge" alt="CodeFactor" /></a>
 
