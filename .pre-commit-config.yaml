@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/psf/black
-    rev: 21.7b0
+    rev: 21.10b0
     hooks:
       - id: black
         language_version: python3.8
@@ -9,7 +9,7 @@ repos:
     hooks:
       - id: isort
   - repo: https://github.com/pycqa/flake8
-    rev: 3.9.2
+    rev: 4.0.1
     hooks:
       - id: flake8
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -27,7 +27,7 @@ repos:
       - id: codespell
         args: ["--skip=palms.spec"]
   - repo: https://github.com/lovesegfault/beautysh
-    rev: v6.1.0
+    rev: v6.2.1
     hooks:
       - id: beautysh
         args: [--force-function-style, paronly]
