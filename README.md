@@ -9,6 +9,10 @@
 <a href="https://results.pre-commit.ci/latest/github/palms-project/palms/master"><img alt="pre-commit.ci status" src="https://results.pre-commit.ci/badge/github/palms-project/palms/master.svg"></a>
 <a href="https://www.codefactor.io/repository/github/palms-project/palms"><img src="https://www.codefactor.io/repository/github/palms-project/palms/badge" alt="CodeFactor" /></a>
 
+<p align="center">
+<a href="#installation">Installation</a> • <a href="#usage">Usage</a> • <a href="#citation">Citation</a>
+</p>
+
 </div>
 
 > **PALMS**: Precise Acquisition LIBS Movement Software
@@ -80,4 +84,21 @@ As a last resort, try restarting it:
 
 ```shell
 sudo systemctl restart palms.service
+```
+
+## Citation
+
+View the poster [on ResearchGate](https://www.researchgate.net/publication/361947681_Precise_Acquisition_LIBS_Movement_Software_An_Easily_Usable_Control_Software_for_Robotized_Optomechanical_Systems).
+If you use or reference PALMS, pleasre cite:
+
+```bibtex
+@article{https://doi.org/10.13140/rg.2.2.36324.65926,
+    doi = {10.13140/RG.2.2.36324.65926},
+    url = {https://rgdoi.net/10.13140/RG.2.2.36324.65926},
+    author = {Shaked, Gideon and Vallone, Max and Dubard, Robert and Ochatt, Claudia},
+    language = {en},
+    title = {Precise Acquisition LIBS Movement Software: An Easily Usable Control Software for Robotized Optomechanical Systems},
+    publisher = {Unpublished},
+    year = {2021}
+}
 ```
