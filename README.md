@@ -89,7 +89,7 @@ sudo systemctl restart palms.service
 ## Citation
 
 View the poster [on ResearchGate](https://www.researchgate.net/publication/361947681_Precise_Acquisition_LIBS_Movement_Software_An_Easily_Usable_Control_Software_for_Robotized_Optomechanical_Systems).
-If you use or reference PALMS, pleasre cite:
+If you use or reference PALMS, please cite the following:
 
 ```bibtex
 @article{https://doi.org/10.13140/rg.2.2.36324.65926,
