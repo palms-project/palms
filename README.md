@@ -97,7 +97,7 @@ If you use or reference PALMS, please cite the following:
     url = {https://rgdoi.net/10.13140/RG.2.2.36324.65926},
     author = {Shaked, Gideon and Vallone, Max and Dubard, Robert and Ochatt, Claudia},
     language = {en},
-    title = {Precise Acquisition LIBS Movement Software: An Easily Usable Control Software for Robotized Optomechanical Systems},
+    title = {Precise Acquisition {LIBS} Movement Software: An Easily Usable Control Software for Robotized Optomechanical Systems},
     publisher = {Unpublished},
     year = {2021}
 }
