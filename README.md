@@ -54,7 +54,7 @@ To run the script:
 
 ```shell
 git clone https://github.com/palms-project/palms
-cd PALMS
+cd palms
 ./src/server/install.sh
 ```
 
